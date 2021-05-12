@@ -36,9 +36,9 @@ namespace ActivitiesAPI
             });
             services.AddCors(opt => 
             {
-                opt.AddPolicy("CorsPolicy", policy =>
+                opt.AddDefaultPolicy(policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyOrigin().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin().WithOrigins("http://localhost:3000");
                 });
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
@@ -59,7 +59,7 @@ namespace ActivitiesAPI
 
             app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+            app.UseCors();
 
             app.UseAuthorization();
 
