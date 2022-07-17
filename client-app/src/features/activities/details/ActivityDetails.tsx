@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { Grid } from 'semantic-ui-react';
-import LoadingComponnet from '../../../app/layout/LoadingComponent';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { useStore } from '../../../app/stores/store';
 import ActivityDetailedChat from './ActivityDetailedChat';
 import ActivityDetailedHeader from './ActivityDetailedHeader';
@@ -19,7 +19,7 @@ export default observer(function ActivityDetails() {
         if (id) loadActivity(id);
     }, [id, loadActivity])
 
-    if (loadingInitial || !activity) return <LoadingComponnet />
+    if (loadingInitial || !activity) return <LoadingComponent />
 
     return (
         <Grid>
