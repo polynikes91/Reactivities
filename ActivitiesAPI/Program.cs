@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,9 +25,13 @@ namespace ActivitiesAPI
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<DataContext>();
+                    DataContext context = services.GetRequiredService<DataContext>();
+
+                    UserManager<User> userManager = services.GetRequiredService<UserManager<User>>();
+
                     await context.Database.MigrateAsync();
-                    await Seed.SeedData(context);
+                    
+                    await Seed.SeedData(context, userManager);
                 }
                 catch(Exception ex)
                 {

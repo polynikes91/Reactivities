@@ -12,6 +12,8 @@ using Application.Activites;
 using Application.Core;
 using FluentValidation.AspNetCore;
 using ActivitiesAPI.Middlewares;
+using ActivitiesAPI.Extensions;
+using ActivitiesAPI.Services;
 
 namespace ActivitiesAPI
 {
@@ -26,7 +28,6 @@ namespace ActivitiesAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers().AddFluentValidation(config =>
             {
                 config.RegisterValidatorsFromAssemblyContaining<Create>();
@@ -48,6 +49,11 @@ namespace ActivitiesAPI
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+            services.AddIdentityServices(_config);
+            
+            services.AddScoped<TokenService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +73,7 @@ namespace ActivitiesAPI
 
             app.UseCors();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
